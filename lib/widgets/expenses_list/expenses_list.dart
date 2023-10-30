@@ -12,6 +12,12 @@ class ExpenseList extends StatelessWidget {
     return ListView.builder(
         itemCount: expensesList.length,
         itemBuilder: (ctx, index) => Dismissible(
+            background: Container(
+              margin: EdgeInsets.symmetric(
+                  horizontal: Theme.of(context).cardTheme.margin!.horizontal),
+              color: Theme.of(context).colorScheme.error.withOpacity(0.8),
+              child: const Icon(Icons.delete),
+            ),
             onDismissed: (direction) => deleteExpense(expensesList[index]),
             key: ValueKey(ExpenseItem(expense: expensesList[index])),
             child: ExpenseItem(expense: expensesList[index])));

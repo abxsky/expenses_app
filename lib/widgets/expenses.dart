@@ -5,7 +5,28 @@ import 'package:expenses_app/models/expense.dart';
 
 class Expenses extends StatefulWidget {
   Expenses({super.key});
-  final List<Expense>? expenseData = [];
+  final List<Expense>? expenseData = [
+    Expense(
+        title: 'Havi\'s cheeks ',
+        amount: 999999,
+        category: ExpenseCategory.leasure,
+        date: DateTime.now()),
+    Expense(
+        title: 'Havi\'s cheeks ',
+        amount: 999999,
+        category: ExpenseCategory.leasure,
+        date: DateTime.now()),
+    Expense(
+        title: 'Havi\'s cheeks ',
+        amount: 999999,
+        category: ExpenseCategory.leasure,
+        date: DateTime.now()),
+    Expense(
+        title: 'Havi\'s cheeks ',
+        amount: 999999,
+        category: ExpenseCategory.leasure,
+        date: DateTime.now()),
+  ];
   //
 
   @override
@@ -66,20 +87,21 @@ class _ExpensesState extends State<Expenses> {
       ));
     }
     return Scaffold(
-      appBar: AppBar(actions: [
+      appBar: AppBar(title: const Text('EXPENSES TRACKER'), actions: [
         IconButton(onPressed: triggerModal, icon: const Icon(Icons.add))
       ]),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Color.fromARGB(255, 143, 0, 0),
-            Color.fromARGB(255, 98, 1, 116)
-          ], begin: Alignment.topRight, end: Alignment.bottomLeft),
-        ),
-        child: Center(
-          child: mainContent,
-        ),
+      body: // Container(
+          //   decoration: const BoxDecoration(
+          //     gradient: LinearGradient(colors: [
+          //       Color.fromARGB(255, 143, 0, 0),
+          //       Color.fromARGB(255, 98, 1, 116)
+          //     ], begin: Alignment.topRight, end: Alignment.bottomLeft),
+          //   ),
+          //   child:
+          Center(
+        child: mainContent,
       ),
     );
+    //);
   }
 }

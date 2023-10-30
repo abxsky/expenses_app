@@ -9,7 +9,6 @@ class ExpenseItem extends StatelessWidget {
   Widget build(context) {
     return SizedBox(
       child: Card(
-        color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -19,6 +18,7 @@ class ExpenseItem extends StatelessWidget {
                 children: [
                   Text(
                     expense.title,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(
                     width: 8,
@@ -31,7 +31,8 @@ class ExpenseItem extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(expense.amount.toString()),
+                  Text(
+                      '\$ ${expense.amount.toString().replaceFirst(RegExp(r'.0'), '')}'),
                   const Spacer(),
                   Text(expense.formatedDate)
                 ],

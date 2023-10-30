@@ -126,15 +126,13 @@ class _NewExpenseState extends State<NewExpense> {
                     onPressed: _checkFormValidation,
                     child: const Text('Save Expense')),
                 ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.white),
-                    ))
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Cancel',
+                  ),
+                )
               ],
             )
           ],
