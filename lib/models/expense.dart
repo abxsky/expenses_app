@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 var generatedId = const Uuid().v4();
 
-enum ExpenseCategory { food, fuel, work, clothes, leasure, other }
+enum ExpenseCategory { food, fuel, work, clothes, leisure, other }
 
 Map<ExpenseCategory, IconData> categoryList = {
   ExpenseCategory.clothes: Icons.man_2,
   ExpenseCategory.food: Icons.fastfood,
-  ExpenseCategory.leasure: Icons.park,
+  ExpenseCategory.leisure: Icons.park,
   ExpenseCategory.fuel: Icons.local_gas_station,
   ExpenseCategory.other: Icons.donut_large,
   ExpenseCategory.work: Icons.plumbing

@@ -2,29 +2,30 @@ import 'package:expenses_app/widgets/expenses_list/expenses_list.dart';
 import 'package:expenses_app/widgets/expenses_list/new_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/models/expense.dart';
+import 'package:expenses_app/widgets/chart/chart.dart';
 
 class Expenses extends StatefulWidget {
   Expenses({super.key});
-  final List<Expense>? expenseData = [
+  final List<Expense> expenseData = [
     Expense(
         title: 'Havi\'s cheeks ',
-        amount: 999999,
-        category: ExpenseCategory.leasure,
+        amount: 99,
+        category: ExpenseCategory.leisure,
         date: DateTime.now()),
     Expense(
         title: 'Havi\'s cheeks ',
-        amount: 999999,
-        category: ExpenseCategory.leasure,
+        amount: 99,
+        category: ExpenseCategory.leisure,
         date: DateTime.now()),
     Expense(
         title: 'Havi\'s cheeks ',
-        amount: 999999,
-        category: ExpenseCategory.leasure,
+        amount: 19,
+        category: ExpenseCategory.leisure,
         date: DateTime.now()),
     Expense(
         title: 'Havi\'s cheeks ',
-        amount: 999999,
-        category: ExpenseCategory.leasure,
+        amount: 19,
+        category: ExpenseCategory.other,
         date: DateTime.now()),
   ];
   //
@@ -38,21 +39,21 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   void addExpense(Expense expense) {
     setState(() {
-      widget.expenseData!.add(expense);
+      widget.expenseData.add(expense);
     });
   }
 
   void removeExpense(Expense expense) {
-    final expenseIndex = widget.expenseData!.indexOf(expense);
+    final expenseIndex = widget.expenseData.indexOf(expense);
 
     setState(() {
-      widget.expenseData!.remove(expense);
+      widget.expenseData.remove(expense);
     });
 
     // inner function because we can't get the deleted expense index beforehand
     void restoreExpense() {
       setState(() {
-        widget.expenseData!.insert(expenseIndex, expense);
+        widget.expenseData.insert(expenseIndex, expense);
       });
     }
 
@@ -75,33 +76,46 @@ class _ExpensesState extends State<Expenses> {
   @override
   Widget build(context) {
     Widget mainContent = ExpenseList(
-      expensesList: widget.expenseData!,
+      expensesList: widget.expenseData,
       deleteExpense: removeExpense,
     );
 
-    if (widget.expenseData!.isEmpty) {
-      mainContent = const Center(
-          child: Text(
-        'No existing expenses, try adding some !',
-        style: TextStyle(color: Colors.white, fontSize: 15),
-      ));
+    if (widget.expenseData.isEmpty) {
+      mainContent =
+          const Center(child: Text('No existing expenses, try adding some !'));
     }
     return Scaffold(
       appBar: AppBar(title: const Text('EXPENSES TRACKER'), actions: [
         IconButton(onPressed: triggerModal, icon: const Icon(Icons.add))
       ]),
-      body: // Container(
-          //   decoration: const BoxDecoration(
-          //     gradient: LinearGradient(colors: [
-          //       Color.fromARGB(255, 143, 0, 0),
-          //       Color.fromARGB(255, 98, 1, 116)
-          //     ], begin: Alignment.topRight, end: Alignment.bottomLeft),
-          //   ),
-          //   child:
-          Center(
-        child: mainContent,
-      ),
+      body: Column(children: [
+        Chart(
+          expenses: widget.expenseData,
+        ),
+        mainContent,
+      ]),
     );
     //);
+  }
+}
+
+class ExpenseBucket {
+  ExpenseBucket({required this.expenseCategory, required this.expensesList});
+
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.expenseCategory)
+      : expensesList = allExpenses
+            .where((expense) => expense.category == expenseCategory)
+            .toList();
+
+  ExpenseCategory expenseCategory;
+  List<Expense> expensesList;
+
+  double get totalExpenses {
+    double sum = 0;
+
+    for (final expense in expensesList) {
+      sum += expense.amount;
+    }
+    return sum;
   }
 }
