@@ -8,22 +8,22 @@ class Expenses extends StatefulWidget {
   Expenses({super.key});
   final List<Expense> expenseData = [
     Expense(
-        title: 'Havi\'s cheeks ',
-        amount: 99,
+        title: 'Perfume Tom Ford',
+        amount: 400,
         category: ExpenseCategory.leisure,
         date: DateTime.now()),
     Expense(
-        title: 'Havi\'s cheeks ',
-        amount: 99,
+        title: 'Earbuds ',
+        amount: 125.99,
         category: ExpenseCategory.leisure,
         date: DateTime.now()),
     Expense(
-        title: 'Havi\'s cheeks ',
-        amount: 19,
+        title: 'KFC Menu',
+        amount: 11.99,
         category: ExpenseCategory.leisure,
         date: DateTime.now()),
     Expense(
-        title: 'Havi\'s cheeks ',
+        title: 'Mosh\'s Python Course',
         amount: 19,
         category: ExpenseCategory.other,
         date: DateTime.now()),
