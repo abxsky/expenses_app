@@ -84,60 +84,135 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(context) {
-    return SizedBox(
-      height: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 48, 15, 15),
-        child: Column(
-          children: [
-            TextField(
-              decoration: const InputDecoration(labelText: 'Title'),
-              controller: titleController,
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        final maxWidth = constraints.maxWidth;
+        return SizedBox(
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(15, 48, 15, keyboardSpace + 15),
+              child: maxWidth <= 600
+                  ? Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(labelText: 'Title'),
+                          controller: titleController,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                    label: Text('Amount'), prefix: Text('\$ ')),
+                                controller: amountController,
+                              ),
+                            ),
+                            DropdownButton(
+                              value: _selectedCategory,
+                              items: ExpenseCategory.values
+                                  .map((category) => DropdownMenuItem(
+                                      value: category,
+                                      child: Text(category.name.toUpperCase())))
+                                  .toList(),
+                              onChanged: onChanged,
+                            ),
+                            Text(_selectedDate == null
+                                ? 'please pick a date'
+                                : formatDate(_selectedDate!)),
+                            IconButton(
+                                onPressed: _triggerDatePicker,
+                                icon: const Icon(Icons.date_range))
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            ElevatedButton(
+                                onPressed: _checkFormValidation,
+                                child: const Text('Save Expense')),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Cancel',
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                decoration:
+                                    const InputDecoration(labelText: 'Title'),
+                                controller: titleController,
+                              ),
+                            ),
+                            SizedBox(
+                              width: maxWidth * 0.02,
+                            ),
+                            Expanded(
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                    label: Text('Amount'), prefix: Text('\$ ')),
+                                controller: amountController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            DropdownButton(
+                              value: _selectedCategory,
+                              items: ExpenseCategory.values
+                                  .map((category) => DropdownMenuItem(
+                                      value: category,
+                                      child: Text(category.name.toUpperCase())))
+                                  .toList(),
+                              onChanged: onChanged,
+                            ),
+                            Spacer(),
+                            Text(_selectedDate == null
+                                ? 'please pick a date'
+                                : formatDate(_selectedDate!)),
+                            IconButton(
+                              onPressed: _triggerDatePicker,
+                              icon: const Icon(Icons.date_range),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                                onPressed: _checkFormValidation,
+                                child: const Text('Save Expense')),
+                            SizedBox(
+                              width: maxWidth * 0.02,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Cancel',
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    decoration: const InputDecoration(
-                        label: Text('Amount'), prefix: Text('\$ ')),
-                    controller: amountController,
-                  ),
-                ),
-                DropdownButton(
-                  value: _selectedCategory,
-                  items: ExpenseCategory.values
-                      .map((category) => DropdownMenuItem(
-                          value: category,
-                          child: Text(category.name.toUpperCase())))
-                      .toList(),
-                  onChanged: onChanged,
-                ),
-                Text(_selectedDate == null
-                    ? 'please pick a date'
-                    : formatDate(_selectedDate!)),
-                IconButton(
-                    onPressed: _triggerDatePicker,
-                    icon: const Icon(Icons.date_range))
-              ],
-            ),
-            Row(
-              children: [
-                ElevatedButton(
-                    onPressed: _checkFormValidation,
-                    child: const Text('Save Expense')),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Cancel',
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -9,8 +9,8 @@ class Expenses extends StatefulWidget {
   final List<Expense> expenseData = [
     Expense(
         title: 'Perfume Tom Ford',
-        amount: 400,
-        category: ExpenseCategory.leisure,
+        amount: 130.0,
+        category: ExpenseCategory.work,
         date: DateTime.now()),
     Expense(
         title: 'Earbuds ',
@@ -66,15 +66,19 @@ class _ExpensesState extends State<Expenses> {
 
   void triggerModal() {
     showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (ctx) => NewExpense(
-              addNewExpense: addExpense,
-            ));
+      useSafeArea: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => NewExpense(
+        addNewExpense: addExpense,
+      ),
+    );
   }
 
   @override
   Widget build(context) {
+    final width = MediaQuery.of(context).size.width;
+
     Widget mainContent = ExpenseList(
       expensesList: widget.expenseData,
       deleteExpense: removeExpense,
@@ -88,12 +92,23 @@ class _ExpensesState extends State<Expenses> {
       appBar: AppBar(title: const Text('EXPENSES TRACKER'), actions: [
         IconButton(onPressed: triggerModal, icon: const Icon(Icons.add))
       ]),
-      body: Column(children: [
-        Chart(
-          expenses: widget.expenseData,
-        ),
-        mainContent,
-      ]),
+      body: width < 600
+          ? Column(children: [
+              Chart(
+                expenses: widget.expenseData,
+              ),
+              mainContent,
+            ])
+          : Row(
+              children: [
+                Expanded(
+                  child: Chart(
+                    expenses: widget.expenseData,
+                  ),
+                ),
+                mainContent,
+              ],
+            ),
     );
     //);
   }

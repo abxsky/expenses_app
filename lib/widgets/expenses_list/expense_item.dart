@@ -31,8 +31,7 @@ class ExpenseItem extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(
-                      '\$ ${expense.amount.toString().replaceFirst(RegExp(r'.0'), '')}'),
+                  Text('\$ ${expense.amount.toString()}'),
                   const Spacer(),
                   Text(expense.formatedDate)
                 ],
